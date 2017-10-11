@@ -148,11 +148,11 @@ Follow the instructions on the [Getting Started with IBM Cloud Schematics](https
 |ssh_key_label|label for your ssh public key|ssh_compute_key|
 |ssh_key_note|description for your ssh public key|ssh key for cluster hosts|
 ||||
-|**entitlement**|entitlement content to use the product|""|
-|**uri_file_entitlement**|publically available link to the entitlement file|""|
-|**uri_package_installer**|publically available link to the product installation file|""|
-|uri_package_additional|publically available link to the product supplement file|""|
-|uri_package_additional2|publically available link to the extra product supplement file|""|
+|**entitlement**|entitlement content to use the product||
+|**uri_file_entitlement**|publically available link to the entitlement file||
+|**uri_package_installer**|publically available link to the product installation file||
+|uri_package_additional|publically available link to the product supplement file||
+|uri_package_additional2|publically available link to the extra product supplement file||
 |product|cluster product to deploy: [symphony, cws, lsf]|symphony|
 |version|version of the cluster product: [latest, 7.2.0.0, 2.2.0.0, 10.1]|latest|
 |cluster_admin|admin account of the cluster: [egoadmin, lsfadmin]|egoadmin|
@@ -187,29 +187,22 @@ Follow the instructions on the [Getting Started with IBM Cloud Schematics](https
 
 ### version 0.5.0
 
-- add option to create and specify private vlan for vm instances
 - ssh_private_key no longer needed for bare metal deployment
-- add paramters uri_file_entitlement, uri_package_installer, uri_package_additonal and uri_package_additional2 for product source
+- add paramters for evaluation clusters:
+  - uri_file_entitlement
+  - uri_package_installer
+  - uri_package_additonal
+  - uri_package_additional2
 
 ### version 0.4
 
 - Boost version to 0.4 to catchup provider version
-- Support symphony, cws and lsf deployment
-- Support both CENTOS_7_64 and UBUNTU_16_64
+- Support **symphony**, **cws** and **lsf deployment**
+- Support both **CENTOS_7_64** and **UBUNTU_16_64**
 - Bare metal support (experimental)
   - **never create bare metals with the same hostname and domainname in the same day even after destroy**
   - bare metal creation require to specify datacenter and preset fixed config, no guarranty of availability
   - **master_use_bare_metal** or **number_of_compute_bare_metal**
-
-### Release initial
-
-- This is the first release from IBM Spectrum Computing.
-- Create centos based symphony 7.2.0.0 virtual machines on SoftLayer using Schematics.
-- Required variables
-  - **entitlement**
-  - **ibm_bmx_api_key**
-  - **ibm_sl_username**, **ibm_sl_api_key**
-  - **ssh_public_key**
 
 ## Advanced Usage
 
@@ -219,11 +212,10 @@ Follow the instructions on the [Getting Started with IBM Cloud Schematics](https
 
 ### bare metal support
 
-**Recommend to use standalone ibm-cloud-provider and terraform to deploy bare metal**
-
 Since datacenter and fixed_config_preset has to be specified and there is no good way to make sure the selection can be satisfied, you may need to try several times. "D2620V4_128GB_2X800GB_SSD_RAID_1_K80_GPU2" is good GPU preset
 
 - master_use_bare_metal = true will create masters as bare metal servers
+- number_of_compute_bare_metal is the quantity of bare metal compute nodes
 - datacenter_bare_metal is the datacenter where to deploy bare metal servers
 - os_reference_bare_metal is the operating system to deploy on bare metal servers
 
