@@ -2,11 +2,23 @@
 
 A High Performance Computing (HPC) for FSS(Financial Services Sector) Tech Preview
 
-This repository can be forked or directly used in IBM Cloud Schematics. You simply update terraform.tfvars to provide your software entitlement and/or sensitive info (ssh publickey, bluemix api key, softlayer username and api key, for security concern, you should use Schematics GUI for them), you can also fine control with other terraform variables.
+This repository can be forked or directly used in IBM Cloud Schematics. You simply update terraform.tfvars to provide your software entitlement and/or sensitive info (bluemix api key, softlayer username and softlayer api key, for security concern, you should use Schematics GUI for them), you can also fine control with other terraform variables.
 
 **IMPORTANT**
 
-Due to legal requirement, we can not provide product packages and entitlement here. You need to provide your own packages and entitlement or you can get the evaluation packages and entitlements from [IBM developerworks] (https://www.ibm.com/developerworks/community/blogs/46ecec34-bd69-43f7-a627-7c469c1eddf8/entry/IBM_Spectrum_Symphony_releases_version_7_2?lang=en). **variables uri_abc_xyz can be the url of the links inside IBM developerworks**.
+Due to legal requirement, we can not provide product packages and entitlement here. You need to provide your own packages and entitlement or you can get the evaluation packages and entitlements from **IBM Website**
+- Evaluation: symphony latest (7.2.0.0): https://www.ibm.com/marketing/iwm/iwm/web/preLogin.do?source=swerpzsw-symphony-3
+  - uri_file_entitlement   = "https://......./sym_adv_ev_entitlement.dat"
+  - uri_package_installer  = "https://......./symeval-7.2.0.0_x86_64.bin"
+  - uri_package_additonal  = "https://......./symdeeval-7.2.0.0_x86_64.bin"
+- Evaluation: cws latest (2.2.0.0): https://www.ibm.com/marketing/iwm/iwm/web/preLogin.do?source=swg-eipcfs
+  - uri_file_entitlement   = "https://......./cwseval_entitlement.dat"
+  - uri_package_installer  = "https://......./seval-2.2.0.0_x86_64.bin"
+- Evaluation: lsf latest (10.1): https://www.ibm.com/marketing/iwm/iwm/web/preLogin.do?source=swerpsysz-lsf-3&S_PKG=lsfv101
+  - uri_file_entitlement   = "" (no evaluation license provided, provide your own)
+  - uri_package_installer  = "https://......./lsf10.1_lsfinstall_linux_x86_64.tar.Z"
+  - uri_package_additional = "https://......./lsf10.1_linux2.6-glibc2.3-x86_64.tar."
+  - uri_package_additional2= "" (no evaluation copy provided, does not support ubuntu 1604)
 
 The entitlement can be provided by **either** of below:
 - entitlement (string value, paste entitlement content)
@@ -14,8 +26,8 @@ The entitlement can be provided by **either** of below:
 
 The packages can be provided by combination of below:
 - uri_package_installer (required, the url that is publicly available, an example is the url when you request evaluation on developerworks)
-- uri_package_additional (optinoal for cws, required for symphony developer edition, required for lsf. the url that is publicly available, an example is the url when you request evaluation on developerworks point to symphony developer edition or lsf arch linux2.6-glibc2.3-x86_64)
-- uri_package_additonal2 (optional for cws and symhony, required for lsf. the url that is publicly available, an example is the url when you request evaluation on developerworks point to lsf arch lnx310-lib217-x86_64)
+- uri_package_additional (optional for cws, required for symphony development host, required for lsf. the url that is publicly available, an example is the url when you request evaluation pointing to symphony developer edition or lsf arch linux2.6-glibc2.3-x86_64)
+- uri_package_additonal2 (optional for cws and symhony, required for lsf to support ubuntu1604. the url that is publicly available, an example is the url when you request evaluation pointing to lsf arch lnx310-lib217-x86_64)
 
 ## Release Information
 
@@ -98,12 +110,15 @@ To run this project locally execute the following steps:
 - create new environment
   - Source Control URL: use your forked repository url
   - Variables (required)
-    - **entitlement**
-    - **ibm_bmx_api_key**
-    - **ibm_sl_username**, **ibm_sl_api_key**
+    - **bluemix_api_key**
+    - **softlayer_username**, **softlayer_api_key**
     - **ssh_public_key**
+    - **entitlement** or **uri_file_entitlement**
+    - **uri_package_installer**
   - Variables (optional)
-    - product = symphony|cws|lsf to create deferrent clusters
+    - product = symphony|cws|lsf to create deferrent clusters, default to symphony
+    - uri_package_additional
+    - uri_package_additional2
     - refer to the file terraform.tfvars
 - plan and view plan log
 - apply and view apply log
@@ -121,9 +136,9 @@ To run this project locally execute the following steps:
 ### all variables
 |Variable Name|Description|Default Value|
 |-------------|-----------|-------------|
-|**ibm_bmx_api_key**|bluemix api key||
-|**ibm_sl_username**|softlayer username||
-|**ibm_sl_api_key**|softlayer api key||
+|**bluemix_api_key**|bluemix api key||
+|**softlayer_username**|softlayer username||
+|**softlayer_api_key**|softlayer api key||
 |datacenter|data center to create vm nodes in|dal12|
 |hourly_billing_master|bill on hourly usage for master nodes|true|
 |hourly_billing_compute|bill on hourly usage for compute nodes|true|
@@ -133,7 +148,11 @@ To run this project locally execute the following steps:
 |ssh_key_note|description for your ssh public key|ssh key for cluster hosts|
 ||||
 |**entitlement**|entitlement content to use the product|""|
-|product|cluster product to deploy: [symphony, cws, lsf|symphony|
+|**uri_file_entitlement**|publically available link to the entitlement file|""|
+|**uri_package_installer**|publically available link to the product installation file|""|
+|uri_package_additional|publically available link to the product supplement file|""|
+|uri_package_additional2|publically available link to the extra product supplement file|""|
+|product|cluster product to deploy: [symphony, cws, lsf]|symphony|
 |version|version of the cluster product: [latest, 7.2.0.0, 2.2.0.0, 10.1]|latest|
 |cluster_admin|admin account of the cluster: [egoadmin, lsfadmin]|egoadmin|
 |cluster_name|name of the cluster|mycluster|
@@ -169,6 +188,7 @@ To run this project locally execute the following steps:
 
 - add option to create and specify private vlan for vm instances
 - ssh_private_key no longer needed for bare metal deployment
+- add paramters uri_file_entitlement, uri_package_installer, uri_package_additonal and uri_package_additional2 for product source
 
 ### version 0.4
 
