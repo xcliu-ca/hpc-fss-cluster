@@ -87,10 +87,6 @@ To use IBM schematics or Terraform with IBM Cloud Provider, you need to gain cer
 
 ## Usage
 
-### Usage with IBM Cloud Schematics
-
-Follow the instructions on the [Getting Started with IBM Cloud Schematics](https://console.ng.bluemix.net/docs/services/schematics/index.html#gettingstarted) documentation page.
-
 ### Usage with Terraform Binary on your local workstation
 You will need to [setup up IBM Cloud provider credentials](#setting-up-provider-credentials) on your local machine. Then you will need the [Terraform binary](https://www.terraform.io/intro/getting-started/install.html) and the [IBM Cloud Provider Plugin](https://github.com/IBM-Bluemix/terraform-provider-ibm). Then follow the instructions at [https://ibm-bluemix.github.io/tf-ibm-docs/v0.5.0/#developing-locally](https://ibm-bluemix.github.io/tf-ibm-docs/v0.5.0/#developing-locally).
 
@@ -101,10 +97,15 @@ To run this project locally execute the following steps:
 - `terraform plan`: this will perform a dry run to show what infrastructure terraform intends to create
 - `terraform apply`: this will create actual infrastructure
   - Infrastructure can be seen in IBM Bluemix under the following URLs:
-    - SSH keys: https://control.bluemix.net/devices/sshkeys
+    - https://control.bluemix.net/devices
 - `terraform destroy`: this will destroy all infrastructure which has been created
 
-### steps
+### Usage with IBM Cloud Schematics
+
+Follow the instructions on the [Getting Started with IBM Cloud Schematics](https://console.ng.bluemix.net/docs/services/schematics/index.html#gettingstarted) documentation page.
+
+
+#### steps
 
 - login to IBM bluemix, navigate to Schematics
 - create new environment
@@ -119,7 +120,7 @@ To run this project locally execute the following steps:
     - product = symphony|cws|lsf to create deferrent clusters, default to symphony
     - uri_package_additional
     - uri_package_additional2
-    - refer to the file terraform.tfvars
+    - refer to the file main.tf for full variable list
 - plan and view plan log
 - apply and view apply log
 - attention
